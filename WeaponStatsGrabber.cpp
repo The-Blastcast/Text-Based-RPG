@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -8,12 +7,6 @@ vector<string> getStats(string item) {
     vector<char> splitItem;
     for (char letter: item) {
         splitItem.push_back(letter);
-    }
-
-    remove(splitItem.begin(), splitItem.end(), ' ');
-
-    for (int i = 0; i <= 2; i++) {
-        splitItem.pop_back();
     }
 
     vector<string> stats;
@@ -37,12 +30,48 @@ vector<string> getStats(string item) {
 }
 
 int main() {
-    string weapons[] = {"Broadsword | Melee | 5", "Longbow | Ranged | 4", "Dagger | Hand-To-Hand | 2"};
+    
+    // All weapons are formatted as such: Name | Type | Range | Attack Speed | Damage
+    string weapons[] = {"Sword | Melee | All-Around | Semi-Fast | High", 
+                        "Dagger | Hand-To-Hand | Small | Quick | Low",
+                        "Bow and Arrow | Distanced | Huge | Semi-Fast | Medium",
+                        "Hammer | Hand-To-Hand | Small | Semi-Slow | High",
+                        "Battle Axe | Hand-To-Hand | Medium | Semi-Fast | High",
+                        "Mace | Hand-To-Hand | Decent | Semi-Slow | High"};
+
+    string weapon;
+    cout << "Enter name of weapon: ";
+    cin >> weapon;
 
     vector<string> stats;
-    stats = getStats(weapons[1]);
+    int i = 0;
 
-    for (string stat: stats) {
-        cout << stat << endl;
+    string name;
+    string type;
+    string range;
+    string attackSpeed;
+    string damage;
+
+    while (true) {
+        if (weapons[i].find_first_not_of(weapon)) {
+            stats = getStats(weapons[i]);
+
+            name = stats[0];
+            type = stats[1];
+            range = stats[2];
+            attackSpeed = stats[3];
+            damage = stats[4];
+
+            break;
+        }
+        else {
+            i += 1;
+        }
     }
+
+    cout << endl << "Name: " << name << endl;
+    cout << "Type: " << type << endl;
+    cout << "Range: " << range << endl;
+    cout << "Attack Speed: " << attackSpeed << endl;
+    cout << "Damage: " << damage << endl;
 }
