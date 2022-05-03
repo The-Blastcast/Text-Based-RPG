@@ -1,98 +1,48 @@
 #include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-string* getValues(string item) {
-    int i = 0;
-    string letter;
-    
-    while (true) {
-        letter = item[i];
-        if (letter == "|") {
-            i += 1;
-            break;
-        }
-        else if (letter == " ") {
-            i += 2;
-            break;
+vector<string> getStats(string item) {
+    vector<char> splitItem;
+    for (char letter: item) {
+        splitItem.push_back(letter);
+    }
+
+    remove(splitItem.begin(), splitItem.end(), ' ');
+
+    for (int i = 0; i <= 2; i++) {
+        splitItem.pop_back();
+    }
+
+    vector<string> stats;
+    string stat;
+    string character;
+
+    for (char letter: splitItem) {
+        if (letter == '|') {
+            stats.push_back(stat);
+            stat = "";
         }
         else {
-            i += 1;
+            character = string (1, letter);
+            stat += character;
         }
     }
 
-    letter = item[i];
-    if (letter == " ") {
-        i += 1;
-    }
+    stats.push_back(stat);
 
-    string category;
-    while (true) {
-        letter = item[i];
-        if (letter == "|") {
-            i += 1;
-            break;
-        }
-        else if (letter == " ") {
-            i += 2;
-            break;
-        }
-        else {
-            category += letter;
-            i += 1;
-        }
-    }
-
-    letter = item[i];
-    if (letter == " ") {
-        i += 1;
-    }
-
-    string power;
-    while (true) {
-        letter = item[i];
-        if (i == item.length()) {
-            break;
-        }
-        else {
-            power += letter;
-            i += 1;
-        }
-    }
-
-    static string stats[2] = {category, power};
     return stats;
 }
 
 int main() {
-    string weapons[3] = {"Broadsword | Melee | 5", "Shortbow | Ranged | 3", "Longbow | Ranged | 4"};
+    string weapons[] = {"Broadsword | Melee | 5", "Longbow | Ranged | 4", "Dagger | Hand-To-Hand | 2"};
 
-    string name;
-    cout << "Enter the weapon name:" << endl;
-    cin >> name;
+    vector<string> stats;
+    stats = getStats(weapons[1]);
 
-    int i = 0;
-    string* values;
-    string category;
-    string power;
-    
-    while (true) {
-        if(weapons[i].find_first_not_of(name)) {
-            cout << endl;
-            
-            values = getValues(weapons[i]);
-            category = values[0];
-            power = values[1];
-            
-            break;
-        }
-        else {
-            i += 1;
-        }
+    for (string stat: stats) {
+        cout << stat << endl;
     }
-
-    cout << "Name: " << name << endl;
-    cout << "Category: " << category << endl;
-    cout << "Power: " << power << endl;
-    return 0;
 }
